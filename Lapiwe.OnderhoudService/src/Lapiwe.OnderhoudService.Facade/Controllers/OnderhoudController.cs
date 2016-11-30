@@ -7,10 +7,12 @@ using Lapiwe.OnderhoudService.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net;
+using System;
+using Swashbuckle.SwaggerGen.Annotations;
 
 namespace Lapiwe.OnderhoudService.Facade.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     public class OnderhoudController : Controller
     {
         private IRepository repository;
@@ -23,11 +25,12 @@ namespace Lapiwe.OnderhoudService.Facade.Controllers
         }
 
         // POST api/onderhoud/aanmelden
-        [Route("/aanmelden")]
+        [SwaggerOperation("MaakNieuwOnderhoudsOpdracht")]
+        [Route("aanmelden")]
         [HttpPost]
         [ProducesResponseType(typeof(OkResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
-        public IActionResult MaakNieuwOnderhoudsOpdracht([FromBody]RegisteerOnderhoudOpdrachtCommand command)
+        public IActionResult MaakNieuwOnderhoudsOpdracht([FromBody]MeldOnderhoudsOpdrachtAanCommand command)
         {
             if (ModelState.IsValid && command != null)
             {
@@ -43,7 +46,7 @@ namespace Lapiwe.OnderhoudService.Facade.Controllers
 
                 repository.Insert(opdracht);
 
-                var OnderhoudEvent = new OnderhoudsOpdrachtGeregistreerdEvent
+                var OnderhoudEvent = new OnderhoudsOpdrachtAangemeldEvent
                 {
                     AanmeldDatum = opdracht.AanmeldDatum,
                     Apk = opdracht.Apk,
@@ -61,7 +64,26 @@ namespace Lapiwe.OnderhoudService.Facade.Controllers
             return BadRequest();
         }
 
-        
+        [SwaggerOperation("StartNieuwOnderhoudsOpdracht")]
+        [Route("start")]
+        [HttpPost]
+        [ProducesResponseType(typeof(OkResult), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
+        public IActionResult StartNieuwOnderhoudsOpdracht([FromBody]StartOnderhoudOpdrachtCommand command)
+        {
+            if (ModelState.IsValid && command != null)
+            {
+                var onderhoudsOpdracht = repository.Find(command.OnderhoudOpdrachtGuid);
+                onderhoudsOpdracht.OpdrachtStatus = Status.Onderhoud;
+                repository.Update(onderhoudsOpdracht);
+
+                var onderhoudsOpdrachtGestartEvent = new OnderhoudsOpdrachtGestartEvent(command.OnderhoudOpdrachtGuid);
+                publisher.Publish(onderhoudsOpdrachtGestartEvent);
+
+                return Ok();
+            }
+            return BadRequest();
+        }
     }
 
 }

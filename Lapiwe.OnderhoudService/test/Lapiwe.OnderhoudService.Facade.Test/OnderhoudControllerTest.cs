@@ -31,6 +31,8 @@ namespace Lapiwe.OnderhoudService.Facade.Test
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            repoMock.Verify(r => r.Insert(It.IsAny<OnderhoudsOpdracht>()), Times.Never());
+            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtAangemeldEvent>()), Times.Never());
         }
 
         [TestMethod]
@@ -41,11 +43,11 @@ namespace Lapiwe.OnderhoudService.Facade.Test
             repoMock.Setup(r => r.Insert(It.IsAny<OnderhoudsOpdracht>()));
 
             var pubMock = new Mock<IEventPublisher>(MockBehavior.Strict);
-            pubMock.Setup(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGeregistreerdEvent>()));
+            pubMock.Setup(p => p.Publish(It.IsAny<OnderhoudsOpdrachtAangemeldEvent>()));
 
             var target = new OnderhoudController(repoMock.Object, pubMock.Object);
 
-            var command = new RegisteerOnderhoudOpdrachtCommand();
+            var command = new MeldOnderhoudsOpdrachtAanCommand();
 
             // Act
             IActionResult result = target.MaakNieuwOnderhoudsOpdracht(command);
@@ -53,7 +55,7 @@ namespace Lapiwe.OnderhoudService.Facade.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkResult));
             repoMock.Verify(r => r.Insert(It.IsAny<OnderhoudsOpdracht>()), Times.Once());
-            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGeregistreerdEvent>()), Times.Once());
+            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtAangemeldEvent>()), Times.Once());
         }
 
         [TestMethod]
@@ -64,11 +66,11 @@ namespace Lapiwe.OnderhoudService.Facade.Test
             repoMock.Setup(r => r.Insert(It.IsAny<OnderhoudsOpdracht>()));
 
             var pubMock = new Mock<IEventPublisher>(MockBehavior.Strict);
-            pubMock.Setup(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGeregistreerdEvent>()));
+            pubMock.Setup(p => p.Publish(It.IsAny<OnderhoudsOpdrachtAangemeldEvent>()));
 
             var target = new OnderhoudController(repoMock.Object, pubMock.Object);
 
-            var command = new RegisteerOnderhoudOpdrachtCommand()
+            var command = new MeldOnderhoudsOpdrachtAanCommand()
             {
                 KlantGuid = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"),
                 AutoGuid = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"),
@@ -84,7 +86,7 @@ namespace Lapiwe.OnderhoudService.Facade.Test
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkResult));
             repoMock.Verify(r => r.Insert(It.IsAny<OnderhoudsOpdracht>()), Times.Once());
-            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGeregistreerdEvent>()), Times.Once());
+            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtAangemeldEvent>()), Times.Once());
         }
 
         [TestMethod]
@@ -92,6 +94,7 @@ namespace Lapiwe.OnderhoudService.Facade.Test
         {
             // Arrange
             var repoMock = new Mock<IRepository>(MockBehavior.Strict);
+            repoMock.Setup(r => r.Find(It.IsAny<Guid>()));
             repoMock.Setup(r => r.Update(It.IsAny<OnderhoudsOpdracht>()));
 
             var pubMock = new Mock<IEventPublisher>(MockBehavior.Strict);
@@ -99,15 +102,39 @@ namespace Lapiwe.OnderhoudService.Facade.Test
 
             var target = new OnderhoudController(repoMock.Object, pubMock.Object);
 
-            var command = new RegisteerOnderhoudOpdrachtCommand();
+            // Act
+            IActionResult result = target.StartNieuwOnderhoudsOpdracht(null);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(BadRequestResult));
+            repoMock.Verify(r => r.Find(It.IsAny<Guid>()), Times.Never());
+            repoMock.Verify(r => r.Update(It.IsAny<OnderhoudsOpdracht>()), Times.Never());
+            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGestartEvent>()), Times.Never());
+        }
+
+        [TestMethod]
+        public void OnderhoudController_StartNieuwOnderhoudsOpdracht_Success()
+        {
+            // Arrange
+            var repoMock = new Mock<IRepository>(MockBehavior.Strict);
+            repoMock.Setup(r => r.Find(It.IsAny<Guid>())).Returns(new OnderhoudsOpdracht() { Guid = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"), OpdrachtStatus = Status.Onderhoud });
+            repoMock.Setup(r => r.Update(It.IsAny<OnderhoudsOpdracht>()));
+
+            var pubMock = new Mock<IEventPublisher>(MockBehavior.Strict);
+            pubMock.Setup(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGestartEvent>()));
+
+            var target = new OnderhoudController(repoMock.Object, pubMock.Object);
+
+            var command = new StartOnderhoudOpdrachtCommand(new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"));
 
             // Act
-            IActionResult result = target.MaakNieuwOnderhoudsOpdracht(command);
+            IActionResult result = target.StartNieuwOnderhoudsOpdracht(command);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(OkResult));
-            repoMock.Verify(r => r.Insert(It.IsAny<OnderhoudsOpdracht>()), Times.Once());
-            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGeregistreerdEvent>()), Times.Once());
+            repoMock.Verify(r => r.Find(It.IsAny<Guid>()), Times.Once());
+            repoMock.Verify(r => r.Update(It.IsAny<OnderhoudsOpdracht>()), Times.Once());
+            pubMock.Verify(p => p.Publish(It.IsAny<OnderhoudsOpdrachtGestartEvent>()), Times.Once());
         }
 
 

@@ -7,5 +7,6 @@ namespace Lapiwe.OnderhoudService.Infrastructure
     {
         void Insert(OnderhoudsOpdracht opdracht);
         void Update(OnderhoudsOpdracht onderhoudsOpdracht);
+        OnderhoudsOpdracht Find(Guid guid);
     }
 }

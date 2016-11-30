@@ -77,9 +77,62 @@ namespace Lapiwe.OnderhoudService.Infrastructure.Test
             {
                 Assert.AreEqual(5, context.OnderhoudsOpdrachten.Count());
             }
-
         }
 
+        [TestMethod]
+        public void Repository_FindsItem()
+        {
+            // Arrange
+            var options = CreateNewContextOptions();
+            IRepository target = new OnderhoudRepository(options);
+
+            var opdracht = new OnderhoudsOpdracht() { };
+            var guid = opdracht.Guid;
+
+            // Act
+            target.Insert(opdracht);
+
+            var result = target.Find(guid);
+
+            // Assert
+            Assert.IsNotNull(result);
+        }
+
+        [TestMethod]
+        public void Repository_FindsItem_throwsException()
+        {
+            // Arrange
+            var options = CreateNewContextOptions();
+            IRepository target = new OnderhoudRepository(options);
+
+            // Act
+            Action action = () => target.Find(new Guid());
+
+            // Assert
+            Assert.ThrowsException<InvalidOperationException>(action);
+        }
+
+        [TestMethod]
+        public void Repository_UpdateItem()
+        {
+            // Arrange
+            var options = CreateNewContextOptions();
+            IRepository target = new OnderhoudRepository(options);
+
+            var opdracht = new OnderhoudsOpdracht() { };
+            var guid = opdracht.Guid;
+
+            // Act
+            target.Insert(opdracht);
+
+            opdracht.OpdrachtStatus = Status.Onderhoud;
+            target.Update(opdracht);
+
+            var result = target.Find(guid);
+
+            // Assert
+            Assert.AreEqual(Status.Onderhoud, result.OpdrachtStatus);
+        }
 
     }
 }

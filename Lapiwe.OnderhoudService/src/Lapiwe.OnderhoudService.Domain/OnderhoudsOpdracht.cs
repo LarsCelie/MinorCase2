@@ -17,10 +17,17 @@ namespace Lapiwe.OnderhoudService.Domain
         public Guid AutoGuid { get; set; }
         [Required]
         public DateTime AanmeldDatum { get; set; }
+        [Required]
         public int Kilometerstand { get; set; }
-        public string OpdrachtOmschrijving { get; set; }
-        public Status OpdrachtStatus { get; set; }
+        [Required]
         public bool Apk { get; set; }
+        [Required]
+        public string OpdrachtOmschrijving { get; set; }
+        [Required]
+        public Status OpdrachtStatus { get; set; }
+
+        public string Werkzaamheden { get; set; }
+
 
 
     }

@@ -19,7 +19,7 @@
     "Lapiwe.OnderhoudService.DomainService": "1.0.0-*",
     "Lapiwe.OnderhoudService.Infrastructure": "1.0.0-*",
     "Lapiwe.Common": "1.2.3",
-    "Lapiwe.EventBus": "1.0.4",
+    "Lapiwe.EventBus": "1.0.5",
     "Swashbuckle": "6.0.0-beta902",
     "SapientGuardian.EntityFrameworkCore.MySql": "7.1.14"
   },
