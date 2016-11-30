@@ -39,7 +39,7 @@ namespace Lapiwe.EventBus.Common
 
         internal void CreateBinding(string queueName, string routingKey)
         {
-            if (queueName != null)
+            if (!string.IsNullOrEmpty(queueName))
             {
                 CreateQueue(queueName);
             }

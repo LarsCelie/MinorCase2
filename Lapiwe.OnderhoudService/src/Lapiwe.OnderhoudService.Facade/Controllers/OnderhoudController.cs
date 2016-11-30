@@ -22,11 +22,12 @@ namespace Lapiwe.OnderhoudService.Facade.Controllers
             publisher = pub;
         }
 
-        // POST api/values
+        // POST api/onderhoud/aanmelden
+        [Route("/aanmelden")]
         [HttpPost]
         [ProducesResponseType(typeof(OkResult), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(BadRequestResult), (int)HttpStatusCode.BadRequest)]
-        public IActionResult Post([FromBody]RegisteerOnderhoudOpdrachtCommand command)
+        public IActionResult MaakNieuwOnderhoudsOpdracht([FromBody]RegisteerOnderhoudOpdrachtCommand command)
         {
             if (ModelState.IsValid && command != null)
             {
@@ -59,6 +60,8 @@ namespace Lapiwe.OnderhoudService.Facade.Controllers
 
             return BadRequest();
         }
+
+        
     }
 
 }
