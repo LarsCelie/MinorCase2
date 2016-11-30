@@ -88,7 +88,7 @@ namespace Lapiwe.OnderhoudService.Facade.Test
         }
 
         [TestMethod]
-        public void OnderhoudController_StartNieuwOnderhoudsOpdracht_Success()
+        public void OnderhoudController_StartNieuwOnderhoudsOpdracht_Fail()
         {
             // Arrange
             var repoMock = new Mock<IRepository>(MockBehavior.Strict);

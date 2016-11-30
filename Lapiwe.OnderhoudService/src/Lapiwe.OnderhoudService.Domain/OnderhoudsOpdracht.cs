@@ -11,8 +11,11 @@ namespace Lapiwe.OnderhoudService.Domain
     {
         [Key]
         public long ID { get; set; }
+        [Required]
         public Guid KlantGuid { get; set; }
+        [Required]
         public Guid AutoGuid { get; set; }
+        [Required]
         public DateTime AanmeldDatum { get; set; }
         public int Kilometerstand { get; set; }
         public string OpdrachtOmschrijving { get; set; }
