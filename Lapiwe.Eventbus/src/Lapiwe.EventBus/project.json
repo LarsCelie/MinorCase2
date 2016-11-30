@@ -1,6 +1,6 @@
 {
   "name": "Lapiwe.EventBus",
-  "version": "1.0.3-*",
+  "version": "1.0.5-*",
   "description": "An event bus for publishing and dispatching events",
   "title": "Lapiwe EventBus",
 
@@ -10,7 +10,7 @@
     "RabbitMQ.Client": "4.1.1",
     "System.Reflection.TypeExtensions": "4.1.0",
     "Microsoft.CodeCoverage": "1.0.2",
-    "Lapiwe.Common": "1.2.0"
+    "Lapiwe.Common": "1.2.3"
   },
 
 

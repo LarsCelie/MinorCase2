@@ -3,7 +3,7 @@
 
   "dependencies": {
     "Lapiwe.OnderhoudService.Domain": "1.0.0-*",
-    "Lapiwe.OnderhoudService.Export": "1.0.0-*",
+    "Lapiwe.OnderhoudService.Export": "1.0.1-*",
     "NETStandard.Library": "1.6.0"
   },
 

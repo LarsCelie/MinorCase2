@@ -23,7 +23,6 @@ namespace Lapiwe.EventBus.Common
                 UserName = busOptions.Username,
                 Password = busOptions.Password,
                 Port = busOptions.Port,
-                VirtualHost = "/",
                 RequestedHeartbeat = 60
             };
             _connection = factory.CreateConnection();
@@ -39,24 +38,29 @@ namespace Lapiwe.EventBus.Common
 
         internal void CreateBinding(string queueName, string routingKey)
         {
-            if (queueName != null)
+            DeclareExchange();
+            if (!string.IsNullOrEmpty(queueName))
             {
                 CreateQueue(queueName);
             }
             else
             {
-                CreateExchangeBinding(routingKey);
+                CreateExchangeQueueBinding(routingKey);
             }
         }
 
-        private void CreateExchangeBinding(string routingKey)
+        internal void DeclareExchange()
         {
             _model.ExchangeDeclare(_busOptions.ExchangeName, ExchangeType.Topic);
+        }
+
+        internal void CreateExchangeQueueBinding(string routingKey)
+        {
             _queueName = _model.QueueDeclare().QueueName;
             _model.QueueBind(queue: _queueName, exchange: _busOptions.ExchangeName, routingKey: routingKey);
         }
 
-        private void CreateQueue(string queueName)
+        internal void CreateQueue(string queueName)
         {
             _queueName = _model.QueueDeclare(queue: queueName, durable: false, exclusive: false, autoDelete: true, arguments: null);
         }

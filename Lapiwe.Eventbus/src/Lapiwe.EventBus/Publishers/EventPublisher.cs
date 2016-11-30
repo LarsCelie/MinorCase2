@@ -22,6 +22,7 @@ namespace Lapiwe.EventBus.Publishers
             var attributeOptions = type.GetTypeInfo().GetCustomAttributes<BusOptions>().FirstOrDefault();
             var busOptions = options ?? attributeOptions ?? new BusOptions();
             _channel = new Channel(busOptions);
+            _channel.DeclareExchange();
         }
 
         public void Publish(DomainEvent domainEvent)
