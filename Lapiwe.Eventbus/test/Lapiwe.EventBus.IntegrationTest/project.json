@@ -9,7 +9,7 @@
     },
     "dotnet-test-mstest": "1.1.2-preview",
     "MSTest.TestFramework": "1.0.6-preview",
-    "Lapiwe.EventBus": "1.0.4-*",
+    "Lapiwe.EventBus": "1.0.5-*",
   },
 
   "frameworks": {
