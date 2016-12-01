@@ -43,7 +43,7 @@ namespace Lapiwe.KlantBeheerService.Facade
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            var connectionString = Configuration.GetConnectionString("DataAccessMySqlProvider") ?? "server=db;userid=admin;password=1234;database=onderhoud";
+            var connectionString = Configuration.GetConnectionString("DataAccessMySqlProvider") ?? "server=db;userid=admin;password=1234;database=klantbeheer";
 
             services.AddDbContext<KlantContext>(context => context.UseMySQL(connectionString));
 

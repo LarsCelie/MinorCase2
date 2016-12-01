@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:64422/",
+      "applicationUrl": "http://localhost:6020/",
       "sslPort": 0
     }
   },
@@ -19,14 +19,14 @@
     "Lapiwe.KlantBeheerService.Facade": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5000/api/values",
+      "launchUrl": "http://localhost:6020/api/v1/klant",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "Docker": {
       "launchBrowser": true,
-      "launchUrl": "http://localhost:{ServicePort}/api/values"
+      "launchUrl": "http://localhost:{ServicePort}/api/v1/klant"
     }
   }
 }

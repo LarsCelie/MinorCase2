@@ -19,7 +19,7 @@ services:
     volumes: 
       - "./.data/db:/var/lib/mysql"
     environment:
-      'ConnectionStrings:DataAccessMySqlProvider': server=db;userid=admin;password=1234;database=onderhoud;
+      'ConnectionStrings:DataAccessMySqlProvider': server=db;userid=admin;password=1234;database=klantbeheer;
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: klantbeheer

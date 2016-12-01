@@ -4,6 +4,7 @@ using Lapiwe.KlantBeheerService.Export;
 using Lapiwe.KlantBeheerService.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.SwaggerGen.Annotations;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Lapiwe.KlantBeheerService.Facade.Controllers
