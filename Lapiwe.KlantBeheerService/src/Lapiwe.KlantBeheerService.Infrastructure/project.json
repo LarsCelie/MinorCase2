@@ -3,8 +3,7 @@
 
   "dependencies": {
     "Lapiwe.KlantBeheerService.Domain": "1.0.0-*",
-    "Lapiwe.KlantBeheerService.DomainServices": "1.0.0-*",
-    "Lapiwe.KlantBeheerService.Export": "1.0.0-*",
+    "Microsoft.EntityFrameworkCore": "1.0.1",
     "NETStandard.Library": "1.6.0"
   },
 

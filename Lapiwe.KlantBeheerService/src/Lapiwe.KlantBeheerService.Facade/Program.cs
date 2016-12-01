@@ -1,6 +1,10 @@
-﻿using Minor.WSA.Common.Contracts;
-using Minor.WSA.WSAEventbus;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Builder;
 
 namespace Lapiwe.KlantBeheerService.Facade
 {
@@ -8,7 +12,14 @@ namespace Lapiwe.KlantBeheerService.Facade
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Klanten Beheer Service aan het starten");
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
         }
     }
 }

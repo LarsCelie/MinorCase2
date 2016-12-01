@@ -2,8 +2,9 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Minor.WSA.WSAEventbus": "0.1.0",
-    "NETStandard.Library": "1.6.0"
+    "NETStandard.Library": "1.6.0",
+    "Lapiwe.Common": "1.2.3",
+    "System.ComponentModel.Annotations": "4.1.0"
   },
 
   "frameworks": {

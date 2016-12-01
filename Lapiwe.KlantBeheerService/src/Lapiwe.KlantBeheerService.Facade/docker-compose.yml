@@ -2,31 +2,40 @@ version: '2'
 
 services:
   lapiwe.klantbeheerservice.facade:
-    image: user/lapiwe.klantbeheerservice.facade${TAG}
+    image: lapiwe/lapiwe.klantbeheerservice
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - 6020:80
+    links:
+      - klantbeheer-db:db
+    networks:
+      - eventbus-network
 
-  mysql:
-    image: mysql
-    container_name: mysql-klantbeheerservice
+  klantbeheer-db:
+    image: "mysql:latest"
+    container_name: "lapiwe_klantbeheerservice_mysql"
+    volumes: 
+      - "./.data/db:/var/lib/mysql"
     environment:
-      MYSQL_PASSWORD: klantbeheer
+      'ConnectionStrings:DataAccessMySqlProvider': server=db;userid=admin;password=1234;database=onderhoud;
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: klantbeheer
-      MYSQL_USER: klantbeheer
-      MYSQL_ROOT_PASSWORD: klantbeheer
+      MYSQL_ROOT_PASSWORD: 12344321
     ports:
       - 6022:3306
-    networks: 
+    networks:
       - eventbus-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin-klantbeheerservice
+    container_name: "lapiwe_klantbeheerservice_phpmyadmin"
     links:
-     - mysql:db
+      - klantbeheer-db:db
     ports:
-     - 6021:80
+      - 6021:80
     networks: 
       - eventbus-network
 
